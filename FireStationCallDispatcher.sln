@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireStationCallDispatcher", "FireStationCallDispatcher\FireStationCallDispatcher.csproj", "{5B3A463E-7034-4D26-89F5-4A68D9231AB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireStationCallDispatcherTest", "FireStationCallDispatcherTest\FireStationCallDispatcherTest.csproj", "{DC159D46-C0A1-472B-8DCE-307F9F925402}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5B3A463E-7034-4D26-89F5-4A68D9231AB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B3A463E-7034-4D26-89F5-4A68D9231AB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B3A463E-7034-4D26-89F5-4A68D9231AB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B3A463E-7034-4D26-89F5-4A68D9231AB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC159D46-C0A1-472B-8DCE-307F9F925402}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC159D46-C0A1-472B-8DCE-307F9F925402}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC159D46-C0A1-472B-8DCE-307F9F925402}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC159D46-C0A1-472B-8DCE-307F9F925402}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6F8EBE4A-6C53-43F8-9196-63EBA46E03CF}
+	EndGlobalSection
+EndGlobal
