@@ -15,7 +15,7 @@ namespace FireStationCallDispatcher
 
     public class Employee
     {
-        public Seniority Seniority{ get; set; }
+        public Seniority Seniority{ get; }
         public Call Call { get; private set; }
 
         public Employee(Seniority seniority)

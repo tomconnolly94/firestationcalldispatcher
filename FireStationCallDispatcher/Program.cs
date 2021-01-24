@@ -2,12 +2,13 @@
 
 namespace FireStationCallDispatcher
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            DispatchSimulator dispatchSimulator = new DispatchSimulator();
-            dispatchSimulator.TriggerSimulation();
+            CallManager callManager = new CallManager();
+            EmployeeManager employeeManager = new EmployeeManager();
+            DispatchSimulator.TriggerSimulation(callManager, employeeManager);
         }
     }
 }

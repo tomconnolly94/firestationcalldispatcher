@@ -5,18 +5,16 @@ using System.Text;
 
 namespace FireStationCallDispatcher
 {
-    public class EmployeeManager
+    public class EmployeeManager : IEmployeeManager
     {
         protected List<Employee> employees;
         protected Random randomNumberGenerator;
-        protected CallEmployeeMapper callEmployeeMapper;
 
-        public EmployeeManager(CallEmployeeMapper callEmployeeMapper)
+        public EmployeeManager()
         {
             employees = new List<Employee>();
             GenerateEmployees(5, 4, 3, 2);
             randomNumberGenerator = new Random();
-            this.callEmployeeMapper = callEmployeeMapper;
         }
 
         public void GenerateEmployees(int numJuniorEmployees, int numSeniorEmployees, int numManagerEmployees, int numDirectorEmployees)
@@ -45,7 +43,7 @@ namespace FireStationCallDispatcher
             {
                 call.CallPriority = PriorityLevel.High;
                 Logger.InfoLog($"Call {call.CallId} has been escalated from Low to High priority.");
-                List<Seniority> highSenorities = callEmployeeMapper.GetCompatibleSeniorities(PriorityLevel.High);
+                List<Seniority> highSenorities = CallEmployeeMapper.GetCompatibleSeniorities(PriorityLevel.High);
 
                 // check if, after call escalation, the employee can still handle this call
                 if (!highSenorities.Contains(selectedEmployee.Seniority))
@@ -58,12 +56,13 @@ namespace FireStationCallDispatcher
             return true;
         }
 
-        public bool AssignCall(Call call, List<Seniority> compatibleSeniorities)
+        public bool AssignCall(Call call)
         {
+            List<Seniority> compatibleSeniorities = CallEmployeeMapper.GetCompatibleSeniorities(call.CallPriority);
             foreach (Seniority seniority in compatibleSeniorities)
             {
                 List<Employee> freeEmployees = employees.Where(employee => employee.IsFree() && employee.Seniority == seniority).ToList();
-                if(freeEmployees.Count > 0)
+                if (freeEmployees.Count > 0)
                 {
                     Employee selectedEmployee = freeEmployees[0];
                     selectedEmployee.AssignCall(call);

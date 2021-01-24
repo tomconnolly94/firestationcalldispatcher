@@ -13,7 +13,7 @@ namespace FireStationCallDispatcher
     public class Call
     {
         public PriorityLevel CallPriority { get; set; }
-        public int CallId { get; private set; }
+        public int CallId { get; }
         public Call(PriorityLevel callPriority, int callId)
         {
             CallPriority = callPriority;

@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using FireStationCallDispatcher.Interfaces;
 
 namespace FireStationCallDispatcher
 {
-    public class DispatchSimulator
+    public static class DispatchSimulator
     {
-        protected CallEmployeeMapper callEmployeeMapper;
-        protected CallManager callManager;
-        protected EmployeeManager employeeManager;
-
-        public DispatchSimulator()
-        {
-            callEmployeeMapper = new CallEmployeeMapper();
-            callManager = new CallManager();
-            employeeManager = new EmployeeManager(callEmployeeMapper);
-        }
-
-        public void TriggerSimulation()
+        public static void TriggerSimulation(ICallManager callManager, IEmployeeManager employeeManager)
         {
             Logger.InfoLog("DispatchSimulator started");
             Logger.InfoLog("");
@@ -26,9 +13,7 @@ namespace FireStationCallDispatcher
             {
                 Call call = callManager.GetNextCall();
 
-                List<Seniority> compatibleSeniorities = callEmployeeMapper.GetCompatibleSeniorities(call.CallPriority);
-
-                bool callSuccessfullyAssigned = employeeManager.AssignCall(call, compatibleSeniorities);
+                bool callSuccessfullyAssigned = employeeManager.AssignCall(call);
 
                 employeeManager.FinishCalls();
 
@@ -40,7 +25,7 @@ namespace FireStationCallDispatcher
             }
 
             Logger.InfoLog("");
-            Logger.InfoLog($"DispatchSimulator finished. {callManager.CompletedCallCount} calls handled successfully.");
+            Logger.InfoLog($"DispatchSimulator finished. {callManager.GetCompletedCallCount()} calls handled successfully.");
         }
     }
 }

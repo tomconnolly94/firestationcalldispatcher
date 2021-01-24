@@ -4,17 +4,15 @@ using System.Text;
 
 namespace FireStationCallDispatcher
 {
-    public class CallEmployeeMapper
+    public static class CallEmployeeMapper
     {
-        protected Dictionary<PriorityLevel, List<Seniority>> mapping;
-        public CallEmployeeMapper()
+        private static readonly Dictionary<PriorityLevel, List<Seniority>> mapping = new Dictionary<PriorityLevel, List<Seniority>>
         {
-            mapping = new Dictionary<PriorityLevel, List<Seniority>>();
-            mapping.Add(PriorityLevel.Low, new List<Seniority> { Seniority.Junior, Seniority.Senior, Seniority.Manager });
-            mapping.Add(PriorityLevel.High, new List<Seniority> { Seniority.Manager, Seniority.Director });
-        }
+            { PriorityLevel.Low, new List<Seniority> { Seniority.Junior, Seniority.Senior, Seniority.Manager } },
+            { PriorityLevel.High, new List<Seniority> { Seniority.Manager, Seniority.Director } }
+        };
 
-        public List<Seniority> GetCompatibleSeniorities(PriorityLevel priorityLevel)
+        public static List<Seniority> GetCompatibleSeniorities(PriorityLevel priorityLevel)
         {
             mapping.TryGetValue(priorityLevel, out List<Seniority> seniority);
             return seniority;
