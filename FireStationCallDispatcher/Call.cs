@@ -6,16 +6,18 @@ namespace FireStationCallDispatcher
 {
     public enum PriorityLevel
     {
-        Low,
-        High
+        Low = 0,
+        High = 1
     }
 
     public class Call
     {
-        protected PriorityLevel callPriority;
-        public Call(PriorityLevel callPriority)
+        public PriorityLevel CallPriority { get; set; }
+        public int CallId { get; private set; }
+        public Call(PriorityLevel callPriority, int callId)
         {
-            this.callPriority = callPriority;
+            CallPriority = callPriority;
+            CallId = callId;
         }
     }
 }

@@ -15,18 +15,27 @@ namespace FireStationCallDispatcher
 
     public class Employee
     {
-        protected Seniority seniority;
-        protected bool busy;
+        public Seniority Seniority{ get; set; }
+        public Call Call { get; private set; }
 
         public Employee(Seniority seniority)
         {
-            this.seniority = seniority;
+            Seniority = seniority;
         }
 
-        public void HandleCall()
+        public void AssignCall(Call call)
         {
-            busy = true;
+            this.Call = call;
+        }
 
+        public void FinishCall()
+        {
+            Call = null;
+        }
+
+        public bool IsFree()
+        {
+            return Call == null;
         }
     }
 }

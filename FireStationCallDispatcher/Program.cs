@@ -6,11 +6,8 @@ namespace FireStationCallDispatcher
     {
         static void Main(string[] args)
         {
-            // generate employees
-            EmployeeManager employeeManager = new EmployeeManager();
-
-            // create call dispatcher
-
+            DispatchSimulator dispatchSimulator = new DispatchSimulator();
+            dispatchSimulator.TriggerSimulation();
         }
     }
 }

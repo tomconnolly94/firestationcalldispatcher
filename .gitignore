@@ -212,3 +212,4 @@ project.lock.json
 *.feature.xlsx.*
 *.Specs_*.html
 
+*.cache
