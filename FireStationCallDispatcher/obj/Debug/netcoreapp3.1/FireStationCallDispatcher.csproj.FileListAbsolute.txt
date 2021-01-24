@@ -1,4 +1,0 @@
-C:\Users\tom\projects\firestationcalldispatcher\FireStationCallDispatcher\obj\Debug\netcoreapp3.1\FireStationCallDispatcher.csprojAssemblyReference.cache
-C:\Users\tom\projects\firestationcalldispatcher\FireStationCallDispatcher\obj\Debug\netcoreapp3.1\FireStationCallDispatcher.AssemblyInfoInputs.cache
-C:\Users\tom\projects\firestationcalldispatcher\FireStationCallDispatcher\obj\Debug\netcoreapp3.1\FireStationCallDispatcher.AssemblyInfo.cs
-C:\Users\tom\projects\firestationcalldispatcher\FireStationCallDispatcher\obj\Debug\netcoreapp3.1\FireStationCallDispatcher.csproj.CoreCompileInputs.cache
