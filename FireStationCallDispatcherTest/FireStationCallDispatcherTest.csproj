@@ -68,6 +68,7 @@
     <Compile Include="CallEmployeeMapperTest.cs" />
     <Compile Include="CallManagerTest.cs" />
     <Compile Include="DispatchSimulatorTest.cs" />
+    <Compile Include="EmployeeManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

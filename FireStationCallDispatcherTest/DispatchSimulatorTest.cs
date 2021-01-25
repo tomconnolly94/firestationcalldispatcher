@@ -2,6 +2,7 @@
 using FireStationCallDispatcher.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Collections.Generic;
 
 namespace FireStationCallDispatcherTest
 {
@@ -21,14 +22,16 @@ namespace FireStationCallDispatcherTest
                 .Returns(call);
 
             Mock<IEmployeeManager> employeeManagerMock = new Mock<IEmployeeManager>();
-            employeeManagerMock.Setup(em => em.AssignCall(call))
+            employeeManagerMock.Setup(em => em.AssignCallToAnEmployee(call))
                 .Returns(true);
+            employeeManagerMock.Setup(em => em.GetBusyEmployees())
+                .Returns(new List<Employee>() { });
 
             DispatchSimulator.TriggerSimulation(callManagerMock.Object, employeeManagerMock.Object);
 
             callManagerMock.Verify(cm => cm.HasUnhandledCalls(), Times.Exactly(2));
             callManagerMock.Verify(cm => cm.GetNextCall(), Times.Once);
-            employeeManagerMock.Verify(em => em.AssignCall(call), Times.Once);
+            employeeManagerMock.Verify(em => em.AssignCallToAnEmployee(call), Times.Once);
             employeeManagerMock.Verify(em => em.FinishCalls(), Times.Once);
             callManagerMock.Verify(cm => cm.ReAddCall(call), Times.Never);
         }
@@ -46,14 +49,16 @@ namespace FireStationCallDispatcherTest
                 .Returns(call);
 
             Mock<IEmployeeManager> employeeManagerMock = new Mock<IEmployeeManager>();
-            employeeManagerMock.Setup(em => em.AssignCall(call))
+            employeeManagerMock.Setup(em => em.AssignCallToAnEmployee(call))
                 .Returns(false);
+            employeeManagerMock.Setup(em => em.GetBusyEmployees())
+                .Returns(new List<Employee>() { });
 
             DispatchSimulator.TriggerSimulation(callManagerMock.Object, employeeManagerMock.Object);
 
             callManagerMock.Verify(cm => cm.HasUnhandledCalls(), Times.Exactly(2));
             callManagerMock.Verify(cm => cm.GetNextCall(), Times.Once);
-            employeeManagerMock.Verify(em => em.AssignCall(call), Times.Once);
+            employeeManagerMock.Verify(em => em.AssignCallToAnEmployee(call), Times.Once);
             employeeManagerMock.Verify(em => em.FinishCalls(), Times.Once);
             callManagerMock.Verify(cm => cm.ReAddCall(call), Times.Once);
         }

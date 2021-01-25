@@ -9,16 +9,14 @@ namespace FireStationCallDispatcher
     {
         protected List<Employee> employees;
         protected Random randomNumberGenerator;
+        protected int maxEscalationChance;
 
-        public EmployeeManager()
+        public EmployeeManager(int maxEscalationChance, int numJuniorEmployees, int numSeniorEmployees, int numManagerEmployees, int numDirectorEmployees)
         {
             employees = new List<Employee>();
-            GenerateEmployees(5, 4, 3, 2);
             randomNumberGenerator = new Random();
-        }
+            this.maxEscalationChance = maxEscalationChance;
 
-        public void GenerateEmployees(int numJuniorEmployees, int numSeniorEmployees, int numManagerEmployees, int numDirectorEmployees)
-        {
             employees.AddRange(GenerateEmployeesOfType(numJuniorEmployees, Seniority.Junior));
             employees.AddRange(GenerateEmployeesOfType(numSeniorEmployees, Seniority.Senior));
             employees.AddRange(GenerateEmployeesOfType(numManagerEmployees, Seniority.Manager));
@@ -36,27 +34,19 @@ namespace FireStationCallDispatcher
             return employees;
         }
 
-        protected bool CallIsNotEscalated(Call call, Employee selectedEmployee)
+        protected bool CallIsEscalated(Call call)
         {
             //check if call has been escalated (1/10 chance) 
-            if (call.CallPriority == PriorityLevel.Low && randomNumberGenerator.Next(0, 10) == 0)
+            if (call.CallPriority == PriorityLevel.Low && randomNumberGenerator.Next(0, maxEscalationChance) == 0)
             {
                 call.CallPriority = PriorityLevel.High;
                 Logger.InfoLog($"Call {call.CallId} has been escalated from Low to High priority.");
-                List<Seniority> highSenorities = CallEmployeeMapper.GetCompatibleSeniorities(PriorityLevel.High);
-
-                // check if, after call escalation, the employee can still handle this call
-                if (!highSenorities.Contains(selectedEmployee.Seniority))
-                {
-                    Logger.InfoLog($"Employee assigned to call {call.CallId} is not senior enough to handle the call after priority escalation. The call will be returned to the front of the queue for re-processing.");
-                    selectedEmployee.FinishCall();
-                    return false;
-                }
+                return true;
             }
-            return true;
+            return false;
         }
 
-        public bool AssignCall(Call call)
+        public bool AssignCallToAnEmployee(Call call)
         {
             List<Seniority> compatibleSeniorities = CallEmployeeMapper.GetCompatibleSeniorities(call.CallPriority);
             foreach (Seniority seniority in compatibleSeniorities)
@@ -66,9 +56,16 @@ namespace FireStationCallDispatcher
                 {
                     Employee selectedEmployee = freeEmployees[0];
                     selectedEmployee.AssignCall(call);
+
                     Logger.InfoLog($"Call {call.CallId} with {call.CallPriority} priority has been assigned to a {selectedEmployee.Seniority} employee.");
 
-                    return CallIsNotEscalated(call, selectedEmployee);
+                    if(CallIsEscalated(call) && !selectedEmployee.CanHandleCall(call))
+                    {
+                        selectedEmployee.FinishCall();
+                        return false;
+                    }
+
+                    return true;
                 }
             }
 
@@ -78,8 +75,8 @@ namespace FireStationCallDispatcher
 
         public void FinishCalls()
         {
-            List<Employee> busyEmployees = employees.Where(employee => !employee.IsFree()).ToList();
-            int numberOfCallsToBeFinished = randomNumberGenerator.Next(0, busyEmployees.Count / 2);
+            List<Employee> busyEmployees = GetBusyEmployees();
+            int numberOfCallsToBeFinished = randomNumberGenerator.Next(0, busyEmployees.Count + 1);
 
             for (var employeeIndex = 0; employeeIndex < numberOfCallsToBeFinished; employeeIndex++)
             {
@@ -87,6 +84,11 @@ namespace FireStationCallDispatcher
                 Logger.InfoLog($"Call {employee.Call.CallId} has been successfully completed.");
                 busyEmployees[employeeIndex].FinishCall();
             }
+        }
+
+        public List<Employee> GetBusyEmployees()
+        {
+            return employees.Where(employee => !employee.IsFree()).ToList();
         }
     }
 }

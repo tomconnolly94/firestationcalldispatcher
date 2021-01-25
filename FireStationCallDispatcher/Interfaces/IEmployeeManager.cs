@@ -1,9 +1,11 @@
-﻿namespace FireStationCallDispatcher
+﻿using System.Collections.Generic;
+
+namespace FireStationCallDispatcher
 {
     public interface IEmployeeManager
     {
-        bool AssignCall(Call call);
+        bool AssignCallToAnEmployee(Call call);
         void FinishCalls();
-        void GenerateEmployees(int numJuniorEmployees, int numSeniorEmployees, int numManagerEmployees, int numDirectorEmployees);
+        List<Employee> GetBusyEmployees();
     }
 }
