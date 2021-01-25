@@ -1,6 +1,7 @@
 ﻿using FireStationCallDispatcher.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace FireStationCallDispatcher
 {
@@ -38,6 +39,7 @@ namespace FireStationCallDispatcher
 
         public Call GetNextCall()
         {
+            Thread.Sleep(new Random().Next(0, 1000));
             int index = 0;
             Call call = unHandledCalls[index];
             unHandledCalls.RemoveAt(index);
@@ -47,9 +49,10 @@ namespace FireStationCallDispatcher
 
         public void ReAddCall(Call call)
         {
-            Logger.InfoLog($"Call {call.CallId} re-added to the call queue.");
+            int newQueuePosition = 0;
+            Logger.InfoLog($"Call {call.CallId} re-added to the call queue in position {newQueuePosition}.");
             completedCallCount--;
-            unHandledCalls.Insert(0, call);
+            unHandledCalls.Insert(newQueuePosition, call);
         }
 
         public int GetCompletedCallCount()
