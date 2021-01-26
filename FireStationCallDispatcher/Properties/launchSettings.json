@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FireStationCallDispatcher": {
+      "commandName": "Project",
+      "commandLineArgs": "data/employees.json"
+    }
+  }
+}

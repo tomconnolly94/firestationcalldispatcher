@@ -30,17 +30,32 @@ namespace FireStationCallDispatcher
 
         protected void LoadEmployees(string employeeFile)
         {
-            string fileContents = File.ReadAllText("../../../" + employeeFile);
-            List<Employee> allEmployees = JsonConvert.DeserializeObject<List<Employee>>(fileContents);
-            foreach(Employee employee in allEmployees)
-            {
-                employees[employee.Seniority].Add(employee);
+            if (!File.Exists(employeeFile)) {
+                Logger.ErrorLog($"The employees file provided({employeeFile}) does not exist. Please make sure the path is given relative to the current working directory.");
+                Environment.Exit(2);
             }
 
-            foreach (KeyValuePair<Seniority, List<Employee>> employeeGroup in employees)
+            string fileContents = File.ReadAllText(employeeFile);
+                
+            try 
             {
-                Logger.InfoLog($"{employeeGroup.Value.Count} {employeeGroup.Key} employees loaded.");
+                List<Employee> allEmployees = JsonConvert.DeserializeObject<List<Employee>>(fileContents);
+
+                foreach (Employee employee in allEmployees)
+                {
+                    employees[employee.Seniority].Add(employee);
+                }
+
+                foreach (KeyValuePair<Seniority, List<Employee>> employeeGroup in employees)
+                {
+                    Logger.InfoLog($"{employeeGroup.Value.Count} {employeeGroup.Key} employees loaded.");
+                }
             }
+            catch (JsonReaderException)
+            {
+                Logger.ErrorLog($"The employees file provided({employeeFile}) is not JSON parsable to a list of employee objects. Please see the data directory for example files.");
+                Environment.Exit(1);
+            } 
         }
 
         protected bool CallIsEscalated(Call call)
