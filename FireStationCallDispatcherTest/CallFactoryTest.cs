@@ -5,14 +5,14 @@ using System.Collections.Generic;
 namespace FireStationCallDispatcherTest
 {
     [TestClass]
-    public class CallGeneratorTest
+    public class CallFactoryTest
     {
         [TestMethod]
         public void TestGenerateCalls()
         {
             int callCount = 10;
 
-            List<Call> calls = CallGenerator.GenerateCalls(callCount);
+            List<Call> calls = CallFactory.GenerateCalls(callCount);
 
             Assert.AreEqual(callCount, calls.Count);
             foreach(Call call in calls)

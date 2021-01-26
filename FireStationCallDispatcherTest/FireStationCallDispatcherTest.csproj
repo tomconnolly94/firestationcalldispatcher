@@ -72,7 +72,7 @@
     <Compile Include="CallManagerTest.cs" />
     <Compile Include="DispatchSimulatorTest.cs" />
     <Compile Include="EmployeeManagerTest.cs" />
-    <Compile Include="CallGeneratorTest.cs" />
+    <Compile Include="CallFactoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
