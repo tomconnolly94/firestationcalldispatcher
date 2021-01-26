@@ -12,7 +12,7 @@ namespace FireStationCallDispatcherTest
         [TestMethod]
         public void TestSimulationSuccessfulCallAssignment()
         {
-            Call call = new Call(PriorityLevel.Low, 1);
+            Call call = new Call(PriorityLevel.Low, 1, "TestCaller");
 
             Mock<ICallManager> callManagerMock = new Mock<ICallManager>();
             callManagerMock.SetupSequence(cm => cm.HasUnhandledCalls())
@@ -22,7 +22,7 @@ namespace FireStationCallDispatcherTest
                 .Returns(call);
 
             Mock<IEmployeeManager> employeeManagerMock = new Mock<IEmployeeManager>();
-            employeeManagerMock.Setup(em => em.AssignCallToAnEmployee(call))
+            employeeManagerMock.Setup(em => em.DispatchCall(call))
                 .Returns(true);
             employeeManagerMock.Setup(em => em.GetBusyEmployees())
                 .Returns(new List<Employee>() { });
@@ -31,7 +31,7 @@ namespace FireStationCallDispatcherTest
 
             callManagerMock.Verify(cm => cm.HasUnhandledCalls(), Times.Exactly(2));
             callManagerMock.Verify(cm => cm.GetNextCall(), Times.Once);
-            employeeManagerMock.Verify(em => em.AssignCallToAnEmployee(call), Times.Once);
+            employeeManagerMock.Verify(em => em.DispatchCall(call), Times.Once);
             employeeManagerMock.Verify(em => em.FinishCalls(), Times.Once);
             callManagerMock.Verify(cm => cm.ReAddCall(call), Times.Never);
         }
@@ -39,7 +39,7 @@ namespace FireStationCallDispatcherTest
         [TestMethod]
         public void TestSimulationFailingCallAssignment()
         {
-            Call call = new Call(PriorityLevel.Low, 1);
+            Call call = new Call(PriorityLevel.Low, 1, "TestCaller");
 
             Mock<ICallManager> callManagerMock = new Mock<ICallManager>();
             callManagerMock.SetupSequence(cm => cm.HasUnhandledCalls())
@@ -49,7 +49,7 @@ namespace FireStationCallDispatcherTest
                 .Returns(call);
 
             Mock<IEmployeeManager> employeeManagerMock = new Mock<IEmployeeManager>();
-            employeeManagerMock.Setup(em => em.AssignCallToAnEmployee(call))
+            employeeManagerMock.Setup(em => em.DispatchCall(call))
                 .Returns(false);
             employeeManagerMock.Setup(em => em.GetBusyEmployees())
                 .Returns(new List<Employee>() { });
@@ -58,7 +58,7 @@ namespace FireStationCallDispatcherTest
 
             callManagerMock.Verify(cm => cm.HasUnhandledCalls(), Times.Exactly(2));
             callManagerMock.Verify(cm => cm.GetNextCall(), Times.Once);
-            employeeManagerMock.Verify(em => em.AssignCallToAnEmployee(call), Times.Once);
+            employeeManagerMock.Verify(em => em.DispatchCall(call), Times.Once);
             employeeManagerMock.Verify(em => em.FinishCalls(), Times.Once);
             callManagerMock.Verify(cm => cm.ReAddCall(call), Times.Once);
         }

@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Collections.Generic;
 
 namespace FireStationCallDispatcherTest
 {
@@ -9,19 +10,22 @@ namespace FireStationCallDispatcherTest
     public class EmployeeManagerTest: EmployeeManager
     {
 
-        public EmployeeManagerTest() : base(1, 1, 0, 1, 0)
+        public EmployeeManagerTest() : base(1, "FireStationCallDispatcher/data/test-employees.json")
         {}
 
         [TestMethod]
         public void TestEmployeeManagerCreation()
-        { 
-            Assert.AreEqual(2, employees.Count);
+        {
+            List<Employee> allEmployees = new List<Employee>();
+            foreach (KeyValuePair<Seniority, List<Employee>> employeeGroup in employees)
+                allEmployees.AddRange(employeeGroup.Value);
+            Assert.AreEqual(2, allEmployees.Count);
         }
 
         [TestMethod]
         public void TestCallIsEscalated()
         {
-            Call call = new Call(PriorityLevel.Low, 1);
+            Call call = new Call(PriorityLevel.Low, 1, "TestCaller" );
             bool callIsEscalated = CallIsEscalated(call);
 
             Assert.AreEqual(true, callIsEscalated);
@@ -31,9 +35,9 @@ namespace FireStationCallDispatcherTest
         [TestMethod]
         public void TestAssignEscalatingCallToAnEmployee()
         {
-            Call call = new Call(PriorityLevel.Low, 1);
+            Call call = new Call(PriorityLevel.Low, 1, "TestCaller");
 
-            bool assignmentSuccess = AssignCallToAnEmployee(call);
+            bool assignmentSuccess = DispatchCall(call);
 
             Assert.AreEqual(false, assignmentSuccess);
             Assert.AreEqual(PriorityLevel.High, call.CallPriority);
@@ -42,9 +46,9 @@ namespace FireStationCallDispatcherTest
         [TestMethod]
         public void TestAssignCallToAnEmployee()
         {
-            Call call = new Call(PriorityLevel.High, 1);
+            Call call = new Call(PriorityLevel.High, 1, "TestCaller");
 
-            bool assignmentSuccess = AssignCallToAnEmployee(call);
+            bool assignmentSuccess = DispatchCall(call);
 
             Assert.AreEqual(true, assignmentSuccess);
             Assert.AreEqual(PriorityLevel.High, call.CallPriority);
