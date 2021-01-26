@@ -4,7 +4,7 @@ namespace FireStationCallDispatcher
 {
     public interface IEmployeeManager
     {
-        bool AssignCallToAnEmployee(Call call);
+        bool DispatchCall(Call call);
         void FinishCalls();
         List<Employee> GetBusyEmployees();
     }

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -7,31 +9,38 @@ namespace FireStationCallDispatcher
 {
     public class EmployeeManager : IEmployeeManager
     {
-        protected List<Employee> employees;
+        protected Dictionary<Seniority, List<Employee>> employees;
         protected Random randomNumberGenerator;
         protected int maxEscalationChance;
 
-        public EmployeeManager(int maxEscalationChance, int numJuniorEmployees, int numSeniorEmployees, int numManagerEmployees, int numDirectorEmployees)
+
+        public EmployeeManager(int maxEscalationChance, string employeeFile)
         {
-            employees = new List<Employee>();
+            employees = new Dictionary<Seniority, List<Employee>>{
+                { Seniority.Junior, new List<Employee>() },
+                { Seniority.Senior, new List<Employee>() },
+                { Seniority.Manager, new List<Employee>() },
+                { Seniority.Director, new List<Employee>() },
+            }; ;
             randomNumberGenerator = new Random();
             this.maxEscalationChance = maxEscalationChance;
 
-            employees.AddRange(GenerateEmployeesOfType(numJuniorEmployees, Seniority.Junior));
-            employees.AddRange(GenerateEmployeesOfType(numSeniorEmployees, Seniority.Senior));
-            employees.AddRange(GenerateEmployeesOfType(numManagerEmployees, Seniority.Manager));
-            employees.AddRange(GenerateEmployeesOfType(numDirectorEmployees, Seniority.Director));
+            LoadEmployees(employeeFile);
         }
 
-        protected List<Employee> GenerateEmployeesOfType(int numberOfEmployees, Seniority employeeType)
+        protected void LoadEmployees(string employeeFile)
         {
-            List<Employee> employees = new List<Employee>();
-            for (int employeeIndex = 0; employeeIndex < numberOfEmployees; ++employeeIndex)
+            string fileContents = File.ReadAllText("../../../" + employeeFile);
+            List<Employee> allEmployees = JsonConvert.DeserializeObject<List<Employee>>(fileContents);
+            foreach(Employee employee in allEmployees)
             {
-                employees.Add(new Employee(employeeType));
-
+                employees[employee.Seniority].Add(employee);
             }
-            return employees;
+
+            foreach (KeyValuePair<Seniority, List<Employee>> employeeGroup in employees)
+            {
+                Logger.InfoLog($"{employeeGroup.Value.Count} {employeeGroup.Key} employees loaded.");
+            }
         }
 
         protected bool CallIsEscalated(Call call)
@@ -46,18 +55,17 @@ namespace FireStationCallDispatcher
             return false;
         }
 
-        public bool AssignCallToAnEmployee(Call call)
+        public bool DispatchCall(Call call)
         {
             List<Seniority> compatibleSeniorities = CallEmployeeMapper.GetCompatibleSeniorities(call.CallPriority);
             foreach (Seniority seniority in compatibleSeniorities)
             {
-                List<Employee> freeEmployees = employees.Where(employee => employee.IsFree() && employee.Seniority == seniority).ToList();
+                List<Employee> freeEmployees = employees[seniority].Where(employee => employee.IsFree).ToList();
                 if (freeEmployees.Count > 0)
                 {
                     Employee selectedEmployee = freeEmployees[0];
                     selectedEmployee.AssignCall(call);
 
-                    Logger.InfoLog($"Call {call.CallId} with {call.CallPriority} priority has been assigned to a {selectedEmployee.Seniority} employee.");
 
                     if(CallIsEscalated(call) && !selectedEmployee.CanHandleCall(call))
                     {
@@ -88,7 +96,11 @@ namespace FireStationCallDispatcher
 
         public List<Employee> GetBusyEmployees()
         {
-            return employees.Where(employee => !employee.IsFree()).ToList();
+            List<Employee> busyEmployees = new List<Employee>();
+            foreach (KeyValuePair<Seniority, List<Employee>> employeeGroup in employees)
+                busyEmployees.AddRange(employees[employeeGroup.Key].Where(employee => !employee.IsFree).ToList());
+            
+            return busyEmployees;
         }
     }
 }

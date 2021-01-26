@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace FireStationCallDispatcher
@@ -7,25 +10,38 @@ namespace FireStationCallDispatcher
 
     public enum Seniority
     {
+        [EnumMember(Value = "Junior")]
         Junior,
+        [EnumMember(Value = "Senior")]
         Senior,
+        [EnumMember(Value = "Manager")]
         Manager,
+        [EnumMember(Value = "Director")]
         Director
     }
 
     public class Employee
     {
-        public Seniority Seniority{ get; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public Seniority Seniority{ get; set; }
         public Call Call { get; private set; }
 
-        public Employee(Seniority seniority)
+        public bool IsFree { get { return Call == null; } }
+
+        public string Name { get; set; }
+        public int Id { get; set; }
+
+        public Employee(Seniority seniority, string name, int id)
         {
             Seniority = seniority;
+            Name = name;
+            Id = id;
         }
 
         public void AssignCall(Call call)
         {
             this.Call = call;
+            Logger.InfoLog($"Call {call.CallId} with {call.CallPriority} priority has been assigned to a {Seniority} employee ({Name}).");
         }
 
         public void FinishCall()
@@ -33,10 +49,6 @@ namespace FireStationCallDispatcher
             Call = null;
         }
 
-        public bool IsFree()
-        {
-            return Call == null;
-        }
 
         public bool CanHandleCall(Call call)
         {
