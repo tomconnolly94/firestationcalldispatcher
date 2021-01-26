@@ -8,7 +8,7 @@ namespace FireStationCallDispatcher
     {
         public static void InfoLog(string message)
         {
-            string timeStamp = DateTime.Now.ToString("yyyy-MM-dd-HH:mm");
+            string timeStamp = DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss");
             Console.WriteLine($"{timeStamp} - Info: {message}");
         }
     }
