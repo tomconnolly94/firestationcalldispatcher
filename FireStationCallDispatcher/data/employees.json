@@ -1,0 +1,87 @@
+[
+  {
+    "id": "001",
+    "name": "Slim Shady",
+    "Seniority": "Junior"
+  },
+  {
+    "id": "002",
+    "name": "Barack Obama",
+    "Seniority": "Junior"
+  },
+  {
+    "id": "003",
+    "name": "Mahatma Ghandi",
+    "Seniority": "Junior"
+  },
+  {
+    "id": "004",
+    "name": "Beyonce Knowles",
+    "Seniority": "Junior"
+  },
+  {
+    "id": "005",
+    "name": "Rob McElhenney",
+    "Seniority": "Junior"
+  },
+  {
+    "id": "006",
+    "name": "Elisabeth Windsor",
+    "Seniority": "Junior"
+  },
+  {
+    "id": "007",
+    "name": "Ada Lovelace",
+    "Seniority": "Junior"
+  },
+  {
+    "id": "008",
+    "name": "Frieda Karlo",
+    "Seniority": "Senior"
+  },
+  {
+    "id": "009",
+    "name": "Stanley Kubrick",
+    "Seniority": "Senior"
+  },
+  {
+    "id": "010",
+    "name": "Bruce Forsyth",
+    "Seniority": "Senior"
+  },
+  {
+    "id": "011",
+    "name": "Sean Connery",
+    "Seniority": "Senior"
+  },
+  {
+    "id": "012",
+    "name": "Alfred Hitchcock",
+    "Seniority": "Senior"
+  },
+  {
+    "id": "013",
+    "name": "Emile Griffith",
+    "Seniority": "Manager"
+  },
+  {
+    "id": "014",
+    "name": "Aneurin Bevan",
+    "Seniority": "Manager"
+  },
+  {
+    "id": "015",
+    "name": "Marie Curie",
+    "Seniority": "Manager"
+  },
+  {
+    "id": "016",
+    "name": "Mary Keller",
+    "Seniority": "Director"
+  },
+  {
+    "id": "017",
+    "name": "Robin Williams",
+    "Seniority": "Director"
+  }
+]

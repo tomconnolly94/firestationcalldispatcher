@@ -1,0 +1,12 @@
+[
+  {
+    "id": "001",
+    "name": "Slim Shady",
+    "Seniority": "Junior"
+  },
+  {
+    "id": "015",
+    "name": "Marie Curie",
+    "Seniority": "Manager"
+  }
+]

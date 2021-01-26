@@ -13,7 +13,7 @@ namespace FireStationCallDispatcher
             {
                 Call call = callManager.GetNextCall();
 
-                bool callSuccessfullyAssigned = employeeManager.AssignCallToAnEmployee(call);
+                bool callSuccessfullyAssigned = employeeManager.DispatchCall(call);
 
                 employeeManager.FinishCalls();
 
