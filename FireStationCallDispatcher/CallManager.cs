@@ -12,7 +12,7 @@ namespace FireStationCallDispatcher
 
         public CallManager(int callCount = 100)
         {
-            unhandledCalls = CallGenerator.GenerateCalls(callCount);
+            unhandledCalls = CallFactory.GenerateCalls(callCount);
             completedCallCount = 0;
         }
 

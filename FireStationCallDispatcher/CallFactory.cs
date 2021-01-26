@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FireStationCallDispatcher
 {
-    public static class CallGenerator
+    public static class CallFactory
     {
         public static List<Call> GenerateCalls(int callCount)
         {
