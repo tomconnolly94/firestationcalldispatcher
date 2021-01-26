@@ -20,7 +20,11 @@ C:\...\firestationcalldispatcher\FireStationCallDispatcher\bin\Release\net472>Fi
 ## Dependencies
 
 * This C# console application depends on Newtonsoft.Json - for reading JSON data - and Moq (only the test project) - for mocking during tests.
-* Dependencies can be installed via the NuGet package manager.
+* Dependencies can be installed via the NuGet package manager but they have also been included alongside the source in the packages/ directory.
+
+## Git
+
+* I used git for version control during this project. I have left the files in alongside the source so you can browse my commit history with `git log`. It is not the most tidy, but this project was time limited.
 
 ## Decisions
 
