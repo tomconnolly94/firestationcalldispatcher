@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FireStationCallDispatcher
+﻿namespace FireStationCallDispatcher
 {
     public enum PriorityLevel
     {
@@ -14,10 +10,12 @@ namespace FireStationCallDispatcher
     {
         public PriorityLevel CallPriority { get; set; }
         public int CallId { get; }
-        public Call(PriorityLevel callPriority, int callId)
+        public string CallerName { get; }
+        public Call(PriorityLevel callPriority, int callId, string callerName)
         {
             CallPriority = callPriority;
             CallId = callId;
+            CallerName = callerName;
         }
     }
 }

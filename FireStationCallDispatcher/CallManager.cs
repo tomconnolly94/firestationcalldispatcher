@@ -7,42 +7,27 @@ namespace FireStationCallDispatcher
 {
     public class CallManager : ICallManager
     {
-        protected List<Call> unHandledCalls;
+        protected List<Call> unhandledCalls;
         protected int completedCallCount;
 
         public CallManager(int callCount = 100)
         {
-            CreateCalls(callCount);
+            unhandledCalls = CallGenerator.GenerateCalls(callCount);
             completedCallCount = 0;
-        }
-
-        protected void CreateCalls(int callCount)
-        {
-            unHandledCalls = new List<Call>();
-            Random random = new Random();
-
-            for (int callIndex = 0; callIndex < callCount; callIndex++)
-            {
-                var numberOfPriorityLevels = Enum.GetNames(typeof(PriorityLevel)).Length;
-                var priorityIndex = random.Next(0, numberOfPriorityLevels);
-                PriorityLevel callPriority = (PriorityLevel)priorityIndex;
-                unHandledCalls.Add(new Call(callPriority, callIndex + 1));
-            }
-
-            Logger.InfoLog($"Calls created. {callCount} calls in the call queue.");
         }
 
         public bool HasUnhandledCalls()
         {
-            return unHandledCalls.Count > 0;
+            return unhandledCalls.Count > 0;
         }
 
         public Call GetNextCall()
         {
+            // random call interval
             Thread.Sleep(new Random().Next(0, 1000));
             int index = 0;
-            Call call = unHandledCalls[index];
-            unHandledCalls.RemoveAt(index);
+            Call call = unhandledCalls[index];
+            unhandledCalls.RemoveAt(index);
             completedCallCount++;
             return call;
         }
@@ -52,7 +37,7 @@ namespace FireStationCallDispatcher
             int newQueuePosition = 0;
             Logger.InfoLog($"Call {call.CallId} re-added to the call queue in position {newQueuePosition}.");
             completedCallCount--;
-            unHandledCalls.Insert(newQueuePosition, call);
+            unhandledCalls.Insert(newQueuePosition, call);
         }
 
         public int GetCompletedCallCount()
