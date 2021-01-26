@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace FireStationCallDispatcher
 {
@@ -42,14 +41,11 @@ namespace FireStationCallDispatcher
                 List<Employee> allEmployees = JsonConvert.DeserializeObject<List<Employee>>(fileContents);
 
                 foreach (Employee employee in allEmployees)
-                {
                     employees[employee.Seniority].Add(employee);
-                }
 
                 foreach (KeyValuePair<Seniority, List<Employee>> employeeGroup in employees)
-                {
                     Logger.InfoLog($"{employeeGroup.Value.Count} {employeeGroup.Key} employees loaded.");
-                }
+
             }
             catch (JsonReaderException)
             {
@@ -105,7 +101,7 @@ namespace FireStationCallDispatcher
             {
                 Employee employee = busyEmployees[employeeIndex];
                 Logger.InfoLog($"Call {employee.Call.CallId} has been successfully completed.");
-                busyEmployees[employeeIndex].FinishCall();
+                employee.FinishCall();
             }
         }
 

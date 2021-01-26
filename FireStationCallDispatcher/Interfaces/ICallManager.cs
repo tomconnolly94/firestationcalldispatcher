@@ -1,5 +1,4 @@
-﻿
-namespace FireStationCallDispatcher.Interfaces
+﻿namespace FireStationCallDispatcher.Interfaces
 {
     public interface ICallManager
     {

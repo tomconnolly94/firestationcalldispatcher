@@ -1,7 +1,5 @@
 ﻿using FireStationCallDispatcher;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
 using System.Collections.Generic;
 
 namespace FireStationCallDispatcherTest
@@ -10,7 +8,7 @@ namespace FireStationCallDispatcherTest
     public class EmployeeManagerTest: EmployeeManager
     {
 
-        public EmployeeManagerTest() : base(1, "FireStationCallDispatcher/data/test-employees.json")
+        public EmployeeManagerTest() : base(1, "FireStationCallDispatcherTest/data/test-employees.json")
         {}
 
         [TestMethod]

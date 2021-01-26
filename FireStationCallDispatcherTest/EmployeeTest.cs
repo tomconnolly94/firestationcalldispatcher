@@ -1,5 +1,4 @@
-﻿using System;
-using FireStationCallDispatcher;
+﻿using FireStationCallDispatcher;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FireStationCallDispatcherTest

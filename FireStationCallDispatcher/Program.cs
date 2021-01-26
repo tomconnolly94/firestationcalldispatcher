@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FireStationCallDispatcher
+﻿namespace FireStationCallDispatcher
 {
     public class Program
     {

@@ -2,7 +2,7 @@
   "profiles": {
     "FireStationCallDispatcher": {
       "commandName": "Project",
-      "commandLineArgs": "data/employees.json"
+      "commandLineArgs": "../../../data/employees.json"
     }
   }
 }

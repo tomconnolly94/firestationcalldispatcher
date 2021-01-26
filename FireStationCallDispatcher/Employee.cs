@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace FireStationCallDispatcher
 {
@@ -40,7 +38,7 @@ namespace FireStationCallDispatcher
 
         public void AssignCall(Call call)
         {
-            this.Call = call;
+            Call = call;
             Logger.InfoLog($"Call {call.CallId} with {call.CallPriority} priority has been assigned to a {Seniority} employee ({Name}).");
         }
 
@@ -48,7 +46,6 @@ namespace FireStationCallDispatcher
         {
             Call = null;
         }
-
 
         public bool CanHandleCall(Call call)
         {

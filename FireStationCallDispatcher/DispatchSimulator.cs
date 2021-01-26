@@ -6,31 +6,23 @@ namespace FireStationCallDispatcher
     {
         public static void TriggerSimulation(ICallManager callManager, IEmployeeManager employeeManager)
         {
-            Logger.InfoLog("DispatchSimulator started");
-            Logger.InfoLog("");
+            Logger.InfoLog("DispatchSimulator started\n");
 
             while (callManager.HasUnhandledCalls())
             {
                 Call call = callManager.GetNextCall();
-
                 bool callSuccessfullyAssigned = employeeManager.DispatchCall(call);
 
                 employeeManager.FinishCalls();
 
                 if (!callSuccessfullyAssigned)
-                {
-                    //handle an unassignable call
                     callManager.ReAddCall(call);
-                }
             }
 
             while(employeeManager.GetBusyEmployees().Count != 0)
-            {
                 employeeManager.FinishCalls();
-            }
 
-            Logger.InfoLog("");
-            Logger.InfoLog($"DispatchSimulator finished. {callManager.GetCompletedCallCount()} calls handled successfully.");
+            Logger.InfoLog($"\nDispatchSimulator finished. {callManager.GetCompletedCallCount()} calls handled successfully.");
         }
     }
 }
